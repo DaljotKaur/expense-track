@@ -1,29 +1,43 @@
-// Import Page.js library
-import page from "page";
+import { useState } from 'react';
+import Layout from './layout';
 
-// Define a function to handle the homepage route
-function homepage() {
-  // Render the homepage content
-  document.getElementById("app").innerHTML =
-    "<h1>Welcome to Expense Tracker</h1>";
+export default function Page() {
+  const [description, setDescription] = useState('');
+  const [amount, setAmount] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add logic to handle expense submission
+    console.log('Expense submitted:', { description, amount });
+    // Reset form fields
+    setDescription('');
+    setAmount('');
+  };
+
+  return (
+    <Layout>
+      <h1>Add Expense</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Description:</label>
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Amount:</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Add Expense</button>
+      </form>
+    </Layout>
+  );
 }
-
-// Define a function to handle the expenses page route
-function expensesPage() {
-  // Render the expenses page content
-  document.getElementById("app").innerHTML = "<h1>Expenses</h1>";
-}
-
-// Define a function to handle the add expense page route
-function addExpensePage() {
-  // Render the add expense page content
-  document.getElementById("app").innerHTML = "<h1>Add Expense</h1>";
-}
-
-// Define routes
-page("/", homepage); // Home page route
-page("/expenses", expensesPage); // Expenses page route
-page("/add", addExpensePage); // Add expense page route
-
-// Start the router
-page();
